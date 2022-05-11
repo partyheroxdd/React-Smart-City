@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import NotFound from './components/NotFound';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import AddBusinessNews from './components/AddBusinessNews';
+import React from 'react';
+import BusinessNewsList from './components/BusinessNewsList';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <div>
+        <div>
+          <Switch>
+            <Route exact path="/getAll" component={BusinessNewsList} />
+            <Route path="/createNews" component={AddBusinessNews} />
+            <Route path="/updateNews/:id" component={AddBusinessNews} />
+            <Route path="*" component={NotFound} />
+          </Switch>
+        </div>
+      </div>
+    </BrowserRouter>
   );
 }
+
 
 export default App;
