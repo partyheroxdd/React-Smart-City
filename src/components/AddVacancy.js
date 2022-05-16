@@ -4,7 +4,7 @@ import { useEffect } from "react/cjs/react.development";
 import businessService from "../services/business.service";
 import React from 'react';
 
-const AddBusinessNews = ({token}) => {
+const AddBusinessNews = () => {
     const[title, setTitle] = useState('');
     const[company, setCompany] = useState('');
     const[description, setDescription] = useState('');
@@ -16,7 +16,7 @@ const AddBusinessNews = ({token}) => {
         
         const businessNews = {title, company, description, id};
         if (id) {
-            businessService.update(businessNews, token)
+            businessService.update(businessNews)
                 .then(response => {
                     console.log('Business news data updated successfully', response.data);
                     history.push('/getAllNews');
@@ -25,13 +25,13 @@ const AddBusinessNews = ({token}) => {
                     console.log('Something went wrong', error);
                 }) 
         } else {
-            businessService.create(businessNews, token)
+            businessService.create(businessNews)
             .then(response => {
                 console.log("business news added successfully", response.data);
                 history.push("/getAllNews");
             })
             .catch(error => {
-                console.log('Something went wroing', error);
+                console.log('something went wroing', error);
             })
         }
     }

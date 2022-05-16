@@ -1,22 +1,22 @@
 import httpClient from "../http-common";
 
-const getAll = () => {
-    return httpClient.get('business/getAll');
+const getAll = (token) => {
+    return httpClient(token).get('business/getAll');
 }
 
-const create = data => {
-    return httpClient.post("business/createNews", data);
+const create = (data, token) => {
+    return httpClient(token).post("business/createNews", data);
 }
 
-const get = id => {
-    return httpClient.get(`/business/getNews/${id}`);
+const get = (id, token) => {
+    return httpClient(token).get(`/business/getNews/${id}`);
 }
 
-const update = data => {
-    return httpClient.put('/business/updateNews/', data);
+const update = (data, token) => {
+    return httpClient(token).put('/business/updateNews/', data);
 }
 
-const remove = id => {
-    return httpClient.delete(`/business/deleteNews/${id}`);
+const remove = (id, token) => {
+    return httpClient(token).delete(`/business/deleteNews/${id}`);
 }
 export default { getAll, create, get, update, remove };

@@ -1,19 +1,21 @@
 import { useEffect, useState} from 'react';
 import { Link} from 'react-router-dom';
-import businessService from '../services/business.service';
+import touristicPlaceService from '../services/touristicplace.service';
 import React from 'react';
 import _ from "lodash";
+
 const pageSize = 5;
-const BusinessNewsList = ({token, setToken}) => {
-  const [businessNews, setBusinessNews] = useState([]);
-  const [paginatedBusinessNews, setPaginatedBusinessNews] = useState([]);
+const TouristicPlaceList = ({token, setToken}) => {
+
+  const [touristcPlaces, setTouristicPlaces] = useState([]);
+  const [paginatedTouristicPlaces, setPaginatedTouristicPlaces] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const init = () => {
-    businessService.getAll(token)
+    touristicPlaceService.getAll(token)
       .then(response => {
-        console.log('Printing business news data', response.data);
-        setBusinessNews(response.data);
-        setPaginatedBusinessNews(_(response.data).slice(0).take(pageSize).value());
+        console.log('Printing touristic place data', response.data);
+        setTouristicPlaces(response.data);
+        setPaginatedTouristicPlaces(_(response.data).slice(0).take(pageSize).value());
       })
       .catch(error => {
         console.log('Something went wrong', error);
@@ -24,13 +26,13 @@ const BusinessNewsList = ({token, setToken}) => {
     init();
   }, []);
 
-  const pageCount = businessNews? Math.ceil(businessNews.length/pageSize) :0;
+  const pageCount = touristcPlaces? Math.ceil(touristcPlaces.length/pageSize) :0;
   const pages = _.range(1, pageCount+1);
   const handleDelete = (id) => {
     console.log('Printing id', id);
-    businessService.remove(id, token)
+    touristicPlaceService.remove(id, token)
       .then(response => {
-        console.log('business news deleted successfully', response.data);
+        console.log('Touristic place deleted successfully', response.data);
         init();
       })
       .catch(error => {
@@ -41,37 +43,39 @@ const BusinessNewsList = ({token, setToken}) => {
   const pagination=(pageNo)=>{
     setCurrentPage(pageNo);
     const startIndex = (pageNo - 1) * pageSize;
-    const paginatedBusinessNew = _(businessNews).slice(startIndex).take(pageSize).value();
-    setPaginatedBusinessNews(paginatedBusinessNew)
+    const paginatedStudentPlaces = _(touristcPlaces).slice(startIndex).take(pageSize).value();
+    setPaginatedTouristicPlaces(paginatedStudentPlaces)
   }
 
   return (
     <div className="container">
-      <h3>List of Business News</h3>
+      <h3>List of Touristic Places</h3>
       <hr/>
       <div>
-        <Link to="/createNews" className="btn btn-primary mb-2">Add Business News</Link>
+        <Link to="/createTouristicPlace" className="btn btn-primary mb-2">Add Touristic Place</Link>
         <table className="table table-bordered table-striped">
           <thead className="thead-dark">
             <tr>
-              <th>Title</th>
-              <th>Company</th>
-              <th>Description</th>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Address</th>
+              <th>ContactInfo</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
           {
-            paginatedBusinessNews.map(b => (
-              <tr key={b.id}>
-                <td>{b.title}</td>
-                <td>{b.company}</td>
-                <td>{b.description}</td>
+            paginatedTouristicPlaces.map(t => (
+              <tr key={t.id}>
+                <td>{t.name}</td>
+                <td>{t.type}</td>
+                <td>{t.address}</td>
+                <td>{t.contactInfo}</td>
                 <td>
-                  <Link className="btn btn-info" to={`/updateNews/${b.id}`}>Update</Link>
+                  <Link className="btn btn-info" to={`/updateTouristicPlace/${t.id}`}>Update</Link>
                   
                   <button className="btn btn-danger ml-2" onClick={() => {
-                    handleDelete(b.id);
+                    handleDelete(t.id);
                   }}>Delete</button>
                 </td>
               </tr>
@@ -102,4 +106,4 @@ const BusinessNewsList = ({token, setToken}) => {
   );
 }
 
-export default BusinessNewsList;
+export default TouristicPlaceList;

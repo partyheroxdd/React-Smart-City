@@ -1,19 +1,21 @@
 import { useEffect, useState} from 'react';
 import { Link} from 'react-router-dom';
-import businessService from '../services/business.service';
+import studentPlaceService from '../services/studentplace.service';
 import React from 'react';
 import _ from "lodash";
+
 const pageSize = 5;
-const BusinessNewsList = ({token, setToken}) => {
-  const [businessNews, setBusinessNews] = useState([]);
-  const [paginatedBusinessNews, setPaginatedBusinessNews] = useState([]);
+const StudentPlaceList = ({token, setToken}) => {
+
+  const [studentPlaces, setStudentPlaces] = useState([]);
+  const [paginatedStudentPlaces, setPaginatedStudentPlaces] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const init = () => {
-    businessService.getAll(token)
+    studentPlaceService.getAll(token)
       .then(response => {
-        console.log('Printing business news data', response.data);
-        setBusinessNews(response.data);
-        setPaginatedBusinessNews(_(response.data).slice(0).take(pageSize).value());
+        console.log('Printing student place data', response.data);
+        setStudentPlaces(response.data);
+        setPaginatedStudentPlaces(_(response.data).slice(0).take(pageSize).value());
       })
       .catch(error => {
         console.log('Something went wrong', error);
@@ -24,13 +26,13 @@ const BusinessNewsList = ({token, setToken}) => {
     init();
   }, []);
 
-  const pageCount = businessNews? Math.ceil(businessNews.length/pageSize) :0;
+  const pageCount = studentPlaces? Math.ceil(studentPlaces.length/pageSize) :0;
   const pages = _.range(1, pageCount+1);
   const handleDelete = (id) => {
     console.log('Printing id', id);
-    businessService.remove(id, token)
+    studentPlaceService.remove(id, token)
       .then(response => {
-        console.log('business news deleted successfully', response.data);
+        console.log('Student place deleted successfully', response.data);
         init();
       })
       .catch(error => {
@@ -41,37 +43,39 @@ const BusinessNewsList = ({token, setToken}) => {
   const pagination=(pageNo)=>{
     setCurrentPage(pageNo);
     const startIndex = (pageNo - 1) * pageSize;
-    const paginatedBusinessNew = _(businessNews).slice(startIndex).take(pageSize).value();
-    setPaginatedBusinessNews(paginatedBusinessNew)
+    const paginatedStudentPlaces = _(studentPlaces).slice(startIndex).take(pageSize).value();
+    setPaginatedStudentPlaces(paginatedStudentPlaces)
   }
 
   return (
     <div className="container">
-      <h3>List of Business News</h3>
+      <h3>List of Student Places</h3>
       <hr/>
       <div>
-        <Link to="/createNews" className="btn btn-primary mb-2">Add Business News</Link>
+        <Link to="/createStudentPlace" className="btn btn-primary mb-2">Add Student Place</Link>
         <table className="table table-bordered table-striped">
           <thead className="thead-dark">
             <tr>
-              <th>Title</th>
-              <th>Company</th>
-              <th>Description</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Address</th>
+              <th>ContactInfo</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
           {
-            paginatedBusinessNews.map(b => (
-              <tr key={b.id}>
-                <td>{b.title}</td>
-                <td>{b.company}</td>
-                <td>{b.description}</td>
+            paginatedStudentPlaces.map(s => (
+              <tr key={s.id}>
+                <td>{s.name}</td>
+                <td>{s.category}</td>
+                <td>{s.address}</td>
+                <td>{s.contactInfo}</td>
                 <td>
-                  <Link className="btn btn-info" to={`/updateNews/${b.id}`}>Update</Link>
+                  <Link className="btn btn-info" to={`/updateStudentPlace/${s.id}`}>Update</Link>
                   
                   <button className="btn btn-danger ml-2" onClick={() => {
-                    handleDelete(b.id);
+                    handleDelete(s.id);
                   }}>Delete</button>
                 </td>
               </tr>
@@ -102,4 +106,4 @@ const BusinessNewsList = ({token, setToken}) => {
   );
 }
 
-export default BusinessNewsList;
+export default StudentPlaceList;
