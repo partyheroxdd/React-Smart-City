@@ -27,7 +27,7 @@ const AddBusinessNews = ({token}) => {
         } else {
             businessService.create(businessNews, token)
             .then(response => {
-                console.log("business news added successfully", response.data);
+                console.log("Business news added successfully", response.data);
                 history.push("/getAllNews");
             })
             .catch(error => {
@@ -38,7 +38,7 @@ const AddBusinessNews = ({token}) => {
 
     useEffect(() => {
         if (id) {
-            businessService.get(id)
+            businessService.get(id, token)
                 .then(businessNews => {
                     setTitle(businessNews.data.title);
                     setCompany(businessNews.data.company);

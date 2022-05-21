@@ -1,34 +1,36 @@
 import { useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { useEffect } from "react/cjs/react.development";
-import businessService from "../services/business.service";
 import React from 'react';
+import vacancyService from "../services/vacancy.service";
 
-const AddBusinessNews = () => {
+
+const AddVacancy = ({token}) => {
     const[title, setTitle] = useState('');
     const[company, setCompany] = useState('');
     const[description, setDescription] = useState('');
+    const[salary, setSalary] = useState('');
     const history = useHistory();
     const {id} = useParams();
 
-    const createNews = (e) => {
+    const createVacancy = (e) => {
         e.preventDefault();
         
-        const businessNews = {title, company, description, id};
+        const vacancy = {title, company, description, salary, id};
         if (id) {
-            businessService.update(businessNews)
+            vacancyService.update(vacancy, token)
                 .then(response => {
-                    console.log('Business news data updated successfully', response.data);
-                    history.push('/getAllNews');
+                    console.log('Vacancy data updated successfully', response.data);
+                    history.push('/getAllVacancy');
                 })
                 .catch(error => {
                     console.log('Something went wrong', error);
                 }) 
         } else {
-            businessService.create(businessNews)
+            vacancyService.create(vacancy, token)
             .then(response => {
-                console.log("business news added successfully", response.data);
-                history.push("/getAllNews");
+                console.log("Vacancy added successfully", response.data);
+                history.push("/getAllVacancy");
             })
             .catch(error => {
                 console.log('something went wroing', error);
@@ -38,11 +40,12 @@ const AddBusinessNews = () => {
 
     useEffect(() => {
         if (id) {
-            businessService.get(id)
-                .then(businessNews => {
-                    setTitle(businessNews.data.title);
-                    setCompany(businessNews.data.company);
-                    setDescription(businessNews.data.description);
+            vacancyService.get(id, token)
+                .then(vacan => {
+                    setTitle(vacan.data.title);
+                    setCompany(vacan.data.company);
+                    setDescription(vacan.data.description);
+                    setSalary(vacan.data.salary);
                 })
                 .catch(error => {
                     console.log('Something went wrong', error);
@@ -51,7 +54,7 @@ const AddBusinessNews = () => {
     }, [])
     return(
         <div className="container">
-            <h3>Add Business News</h3>
+            <h3>Add Vacancy</h3>
             <hr/>
             <form>
                 <div className="form-group">
@@ -86,14 +89,24 @@ const AddBusinessNews = () => {
                         placeholder="Enter description"
                     />
                 </div>
+                <div className="form-group">
+                    <input 
+                        type="text" 
+                        className="form-control col-4"
+                        id="salary"
+                        value={salary}
+                        onChange={(e) => setSalary(e.target.value)}
+                        placeholder="Enter salary"
+                    />
+                </div>
                 <div >
-                    <button onClick={(e) => createNews(e)} className="btn btn-success">Save</button>
+                    <button onClick={(e) => createVacancy(e)} className="btn btn-success">Save</button>
                 </div>
             </form>
             <hr/>
-            <Link to="/getAllNews">Back to List</Link>
+            <Link to="/getAllVacancy">Back to List</Link>
         </div>
     )
 }
 
-export default AddBusinessNews;
+export default AddVacancy;

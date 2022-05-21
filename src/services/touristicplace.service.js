@@ -16,7 +16,7 @@ const update = (data, token) => {
     return httpClient(token).put('/tourism/updateTouristicPlace/', data);
 }
 
-const remove = (id,token) => {
+const remove = (id, token) => {
     return httpClient(token).delete(`/tourism/deleteTouristicPlace/${id}`);
 }
 export default { getAll, create, get, update, remove };

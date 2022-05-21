@@ -39,7 +39,7 @@ const AddBuilding = ({token}) => {
 
     useEffect(() => {
         if (id) {
-            buildingService.get(id)
+            buildingService.get(id, token)
                 .then(building => {
                     setName(building.data.name);
                     setCategory(building.data.category);

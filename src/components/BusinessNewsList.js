@@ -30,7 +30,7 @@ const BusinessNewsList = ({token, setToken}) => {
     console.log('Printing id', id);
     businessService.remove(id, token)
       .then(response => {
-        console.log('business news deleted successfully', response.data);
+        console.log('Business news deleted successfully', response.data);
         init();
       })
       .catch(error => {

@@ -1,20 +1,21 @@
 import { useEffect, useState} from 'react';
 import { Link} from 'react-router-dom';
-import businessService from '../services/business.service';
+import vacancyService from '../services/vacancy.service';
 import React from 'react';
 import _ from "lodash";
-const pageSize = 5;
-const BusinessNewsList = () => {
 
-  const [businessNews, setBusinessNews] = useState([]);
-  const [paginatedBusinessNews, setPaginatedBusinessNews] = useState([]);
+const pageSize = 5;
+const VacancyList = ({token, setToken}) => {
+
+  const [vacancy, setVacancy] = useState([]);
+  const [paginatedVacancy, setPaginatedVacancy] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const init = () => {
-    businessService.getAll()
+    vacancyService.getAll(token)
       .then(response => {
-        console.log('Printing business news data', response.data);
-        setBusinessNews(response.data);
-        setPaginatedBusinessNews(_(response.data).slice(0).take(pageSize).value());
+        console.log('Printing vacancy data', response.data);
+        setVacancy(response.data);
+        setPaginatedVacancy(_(response.data).slice(0).take(pageSize).value());
       })
       .catch(error => {
         console.log('Something went wrong', error);
@@ -25,13 +26,13 @@ const BusinessNewsList = () => {
     init();
   }, []);
 
-  const pageCount = businessNews? Math.ceil(businessNews.length/pageSize) :0;
+  const pageCount = vacancy? Math.ceil(vacancy.length/pageSize) :0;
   const pages = _.range(1, pageCount+1);
   const handleDelete = (id) => {
     console.log('Printing id', id);
-    businessService.remove(id)
+    vacancyService.remove(id, token)
       .then(response => {
-        console.log('business news deleted successfully', response.data);
+        console.log('Vacancy deleted successfully', response.data);
         init();
       })
       .catch(error => {
@@ -42,37 +43,39 @@ const BusinessNewsList = () => {
   const pagination=(pageNo)=>{
     setCurrentPage(pageNo);
     const startIndex = (pageNo - 1) * pageSize;
-    const paginatedBusinessNew = _(businessNews).slice(startIndex).take(pageSize).value();
-    setPaginatedBusinessNews(paginatedBusinessNew)
+    const paginatedVac = _(vacancy).slice(startIndex).take(pageSize).value();
+    setPaginatedVacancy(paginatedVac)
   }
 
   return (
     <div className="container">
-      <h3>List of Business News</h3>
+      <h3>List of Vacancies</h3>
       <hr/>
       <div>
-        <Link to="/createNews" className="btn btn-primary mb-2">Add Business News</Link>
+        <Link to="/createVacancy" className="btn btn-primary mb-2">Add Vacancy</Link>
         <table className="table table-bordered table-striped">
           <thead className="thead-dark">
             <tr>
               <th>Title</th>
               <th>Company</th>
               <th>Description</th>
+              <th>Salary</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
           {
-            paginatedBusinessNews.map(b => (
-              <tr key={b.id}>
-                <td>{b.title}</td>
-                <td>{b.company}</td>
-                <td>{b.description}</td>
+            paginatedVacancy.map(v => (
+              <tr key={v.id}>
+                <td>{v.title}</td>
+                <td>{v.company}</td>
+                <td>{v.description}</td>
+                <td>{v.salary}</td>
                 <td>
-                  <Link className="btn btn-info" to={`/updateNews/${b.id}`}>Update</Link>
+                  <Link className="btn btn-info" to={`/updateVacancy/${v.id}`}>Update</Link>
                   
                   <button className="btn btn-danger ml-2" onClick={() => {
-                    handleDelete(b.id);
+                    handleDelete(v.id);
                   }}>Delete</button>
                 </td>
               </tr>
@@ -103,4 +106,4 @@ const BusinessNewsList = () => {
   );
 }
 
-export default BusinessNewsList;
+export default VacancyList;

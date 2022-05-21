@@ -39,7 +39,7 @@ const AddStudentPlace = ({token}) => {
 
     useEffect(() => {
         if (id) {
-            studentPlaceService.get(id)
+            studentPlaceService.get(id, token)
                 .then(studentPlace => {
                     setName(studentPlace.data.name);
                     setCategory(studentPlace.data.category);

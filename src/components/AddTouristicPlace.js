@@ -39,7 +39,7 @@ const AddTouristicPlace = ({token}) => {
 
     useEffect(() => {
         if (id) {
-            touristicPlaceService.get(id)
+            touristicPlaceService.get(id, token)
                 .then(touristicPlace => {
                     setName(touristicPlace.data.name);
                     setType(touristicPlace.data.type);
