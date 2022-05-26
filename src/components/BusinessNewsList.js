@@ -4,12 +4,12 @@ import businessService from '../services/business.service';
 import React from 'react';
 import _ from "lodash";
 const pageSize = 5;
-const BusinessNewsList = ({token, setToken}) => {
+const BusinessNewsList = () => {
   const [businessNews, setBusinessNews] = useState([]);
   const [paginatedBusinessNews, setPaginatedBusinessNews] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const init = () => {
-    businessService.getAll(token)
+    businessService.getAll(localStorage.getItem("token"))
       .then(response => {
         console.log('Printing business news data', response.data);
         setBusinessNews(response.data);
@@ -28,7 +28,7 @@ const BusinessNewsList = ({token, setToken}) => {
   const pages = _.range(1, pageCount+1);
   const handleDelete = (id) => {
     console.log('Printing id', id);
-    businessService.remove(id, token)
+    businessService.remove(id, localStorage.getItem("token"))
       .then(response => {
         console.log('Business news deleted successfully', response.data);
         init();

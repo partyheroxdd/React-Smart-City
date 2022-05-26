@@ -5,13 +5,13 @@ import React from 'react';
 import _ from "lodash";
 
 const pageSize = 5;
-const VacancyList = ({token, setToken}) => {
+const VacancyList = () => {
 
   const [vacancy, setVacancy] = useState([]);
   const [paginatedVacancy, setPaginatedVacancy] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const init = () => {
-    vacancyService.getAll(token)
+    vacancyService.getAll(localStorage.getItem("token"))
       .then(response => {
         console.log('Printing vacancy data', response.data);
         setVacancy(response.data);
@@ -30,7 +30,7 @@ const VacancyList = ({token, setToken}) => {
   const pages = _.range(1, pageCount+1);
   const handleDelete = (id) => {
     console.log('Printing id', id);
-    vacancyService.remove(id, token)
+    vacancyService.remove(id, localStorage.getItem("token"))
       .then(response => {
         console.log('Vacancy deleted successfully', response.data);
         init();

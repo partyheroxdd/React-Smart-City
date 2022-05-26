@@ -12,60 +12,66 @@ import TouristicPlaceList from './components/TouristicPlaceList';
 import AddTouristicPlace from './components/AddTouristicPlace';
 import VacancyList from './components/VacancyList';
 import AddVacancy from './components/AddVacancy';
+import Register from './components/Register';
+import Auth from './components/Auth';
+
 function App() {
-
-
-  const [token, setToken] = useState('eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbiI6ImFkbWluIiwicGFzc3dvcmQiOiJhZG1pbiIsIlJPTEUiOiJBRE1JTiIsImlhdCI6MTY1MzE2MjY0MiwiZXhwIjoxNjUzMjYyNjQyfQ.z-O9PwmVXy5bn5sRMCZdiI4N0KvgwYWIXGzRvt8htZRoQ3K8QEUg0D5PcLQM_BPV8nEApUGf0YJo5Jf8PnR1lg');
   
   return (
     <BrowserRouter>
       <div>
         <div>
           <Switch>
-            <Route exact path="/getAllNews" >
-              <BusinessNewsList token={token}/>
+          <Route exact path="/">
+              <Auth/>
+              </Route>
+          <Route path="/register">
+              <Register/>
+              </Route>
+            <Route path="/getAllNews" >
+              <BusinessNewsList />
               </Route>
             <Route path="/createNews">
-              <AddBusinessNews token={token}/>
+              <AddBusinessNews />
               </Route>
             <Route path="/updateNews/:id">
-              <AddBusinessNews token={token}/>
+              <AddBusinessNews />
               </Route>
               <Route path="/getAllBuilding" >
-              <BuildingList token={token}/>
+              <BuildingList/>
               </Route>
             <Route path="/createBuilding">
-              <AddBuilding token={token}/>
+              <AddBuilding />
               </Route>
             <Route path="/updateBuilding/:id">
-              <AddBuilding token={token}/>
+              <AddBuilding />
               </Route>
               <Route path="/getAllStudentPlace" >
-              <StudentPlaceList token={token}/>
+              <StudentPlaceList/>
               </Route>
             <Route path="/createStudentPlace">
-              <AddStudentPlace token={token}/>
+              <AddStudentPlace/>
               </Route>
             <Route path="/updateStudentPlace/:id">
-              <AddStudentPlace token={token}/>
+              <AddStudentPlace/>
               </Route>
               <Route path="/getAllTouristicPlace" >
-              <TouristicPlaceList token={token}/>
+              <TouristicPlaceList/>
               </Route>
             <Route path="/createTouristicPlace">
-              <AddTouristicPlace token={token}/>
+              <AddTouristicPlace/>
               </Route>
             <Route path="/updateTouristicPlace/:id">
-              <AddTouristicPlace token={token}/>
+              <AddTouristicPlace/>
               </Route>
               <Route path="/getAllVacancy" >
-              <VacancyList token={token}/>
+              <VacancyList/>
               </Route>
             <Route path="/createVacancy">
-              <AddVacancy token={token}/>
+              <AddVacancy/>
               </Route>
             <Route path="/updateVacancy/:id">
-              <AddVacancy token={token}/>
+              <AddVacancy/>
               </Route>
             <Route path="*" component={NotFound} />
           </Switch>

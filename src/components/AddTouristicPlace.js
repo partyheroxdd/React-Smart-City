@@ -4,7 +4,7 @@ import { useEffect } from "react/cjs/react.development";
 import React from 'react';
 import touristicPlaceService from "../services/touristicplace.service";
 
-const AddTouristicPlace = ({token}) => {
+const AddTouristicPlace = () => {
     const[name, setName] = useState('');
     const[type, setType] = useState('');
     const[address, setAddress] = useState('');
@@ -17,7 +17,7 @@ const AddTouristicPlace = ({token}) => {
         
         const touristicPlace = {name: name, type: type, address: address, contactInfo: contactInfo, id};
         if (id) {
-            touristicPlaceService.update(touristicPlace, token)
+            touristicPlaceService.update(touristicPlace, localStorage.getItem("token"))
                 .then(response => {
                     console.log('Touristic place data updated successfully', response.data);
                     history.push('/getAllTouristicPlace');
@@ -26,7 +26,7 @@ const AddTouristicPlace = ({token}) => {
                     console.log('Something went wrong', error);
                 }) 
         } else {
-            touristicPlaceService.create(touristicPlace, token)
+            touristicPlaceService.create(touristicPlace, localStorage.getItem("token"))
             .then(response => {
                 console.log("Touristic place added successfully", response.data);
                 history.push("/getAllTouristicPlace");
@@ -39,7 +39,7 @@ const AddTouristicPlace = ({token}) => {
 
     useEffect(() => {
         if (id) {
-            touristicPlaceService.get(id, token)
+            touristicPlaceService.get(id, localStorage.getItem("token"))
                 .then(touristicPlace => {
                     setName(touristicPlace.data.name);
                     setType(touristicPlace.data.type);

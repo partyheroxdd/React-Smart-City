@@ -4,13 +4,13 @@ import React from 'react';
 import _ from "lodash";
 import buildingService from '../services/building.service';
 const pageSize = 5;
-const BuildingList = ({token, setToken}) => {
+const BuildingList = () => {
 
   const [buildings, setBuildings] = useState([]);
   const [paginatedBuildings, setPaginatedBuildings] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const init = () => {
-    buildingService.getAll(token)
+    buildingService.getAll(localStorage.getItem("token"))
       .then(response => {
         console.log('Printing buildings data', response.data);
         setBuildings(response.data);
@@ -29,7 +29,7 @@ const BuildingList = ({token, setToken}) => {
   const pages = _.range(1, pageCount+1);
   const handleDelete = (id) => {
     console.log('Printing id', id);
-    buildingService.remove(id, token)
+    buildingService.remove(id, localStorage.getItem("token"))
       .then(response => {
         console.log('Building deleted successfully', response.data);
         init();

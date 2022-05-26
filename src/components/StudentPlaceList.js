@@ -5,13 +5,13 @@ import React from 'react';
 import _ from "lodash";
 
 const pageSize = 5;
-const StudentPlaceList = ({token, setToken}) => {
+const StudentPlaceList = () => {
 
   const [studentPlaces, setStudentPlaces] = useState([]);
   const [paginatedStudentPlaces, setPaginatedStudentPlaces] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const init = () => {
-    studentPlaceService.getAll(token)
+    studentPlaceService.getAll(localStorage.getItem("token"))
       .then(response => {
         console.log('Printing student place data', response.data);
         setStudentPlaces(response.data);
@@ -30,7 +30,7 @@ const StudentPlaceList = ({token, setToken}) => {
   const pages = _.range(1, pageCount+1);
   const handleDelete = (id) => {
     console.log('Printing id', id);
-    studentPlaceService.remove(id, token)
+    studentPlaceService.remove(id, localStorage.getItem("token"))
       .then(response => {
         console.log('Student place deleted successfully', response.data);
         init();

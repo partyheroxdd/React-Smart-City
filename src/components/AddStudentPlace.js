@@ -4,7 +4,7 @@ import { useEffect } from "react/cjs/react.development";
 import React from 'react';
 import studentPlaceService from "../services/studentplace.service";
 
-const AddStudentPlace = ({token}) => {
+const AddStudentPlace = () => {
     const[name, setName] = useState('');
     const[category, setCategory] = useState('');
     const[address, setAddress] = useState('');
@@ -17,7 +17,7 @@ const AddStudentPlace = ({token}) => {
         
         const studentPlace = {name: name, category: category, address: address, contactInfo: contactInfo, id};
         if (id) {
-            studentPlaceService.update(studentPlace, token)
+            studentPlaceService.update(studentPlace, localStorage.getItem("token"))
                 .then(response => {
                     console.log('Student place data updated successfully', response.data);
                     history.push('/getAllStudentPlace');
@@ -26,7 +26,7 @@ const AddStudentPlace = ({token}) => {
                     console.log('Something went wrong', error);
                 }) 
         } else {
-            studentPlaceService.create(studentPlace, token)
+            studentPlaceService.create(studentPlace, localStorage.getItem("token"))
             .then(response => {
                 console.log("Student place added successfully", response.data);
                 history.push("/getAllStudentPlace");
@@ -39,7 +39,7 @@ const AddStudentPlace = ({token}) => {
 
     useEffect(() => {
         if (id) {
-            studentPlaceService.get(id, token)
+            studentPlaceService.get(id, localStorage.getItem("token"))
                 .then(studentPlace => {
                     setName(studentPlace.data.name);
                     setCategory(studentPlace.data.category);

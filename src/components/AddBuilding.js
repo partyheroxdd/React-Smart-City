@@ -4,7 +4,7 @@ import { useEffect } from "react/cjs/react.development";
 import React from 'react';
 import buildingService from "../services/building.service";
 
-const AddBuilding = ({token}) => {
+const AddBuilding = () => {
     const[name, setName] = useState('');
     const[category, setCategory] = useState('');
     const[address, setAddress] = useState('');
@@ -17,7 +17,7 @@ const AddBuilding = ({token}) => {
         
         const building = {name: name, category: category, address: address, contactInfo: contactInfo, id};
         if (id) {
-            buildingService.update(building, token)
+            buildingService.update(building, localStorage.getItem("token"))
                 .then(response => {
                     console.log('Building data updated successfully', response.data);
                     history.push('/getAllBuilding');
@@ -26,7 +26,7 @@ const AddBuilding = ({token}) => {
                     console.log('Something went wrong', error);
                 }) 
         } else {
-            buildingService.create(building, token)
+            buildingService.create(building, localStorage.getItem("token"))
             .then(response => {
                 console.log("Building added successfully", response.data);
                 history.push("/getAllBuilding");
@@ -39,7 +39,7 @@ const AddBuilding = ({token}) => {
 
     useEffect(() => {
         if (id) {
-            buildingService.get(id, token)
+            buildingService.get(id, localStorage.getItem("token"))
                 .then(building => {
                     setName(building.data.name);
                     setCategory(building.data.category);
