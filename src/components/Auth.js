@@ -17,7 +17,7 @@ const Auth = () => {
             .then(response => {
                 console.log("Auth successfully", response.data);
                 localStorage.setItem("token", response.data);
-                history.push("/getAllNews");
+                history.push("/getAllTouristicPlace");
             })
             .catch(error => {
                 console.log('Incorrect login or password!', error);

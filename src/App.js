@@ -18,6 +18,32 @@ import Auth from './components/Auth';
 function App() {
   
   return (
+    <>
+   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="/">Exit</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="/getAllBuilding">Administration<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/getAllNews">Business</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/getAllVacancy">Jobseeker</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/getAllStudentPlace">Student</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/getAllTouristicPlace">Tourism</a>
+      </li>
+    </ul>
+  </div>
+</nav>
     <BrowserRouter>
       <div>
         <div>
@@ -78,6 +104,7 @@ function App() {
         </div>
       </div>
     </BrowserRouter>
+    </>
   );
 }
 

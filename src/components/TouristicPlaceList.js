@@ -5,13 +5,13 @@ import React from 'react';
 import _ from "lodash";
 
 const pageSize = 5;
-const TouristicPlaceList = ({token, setToken}) => {
+const TouristicPlaceList = () => {
 
   const [touristcPlaces, setTouristicPlaces] = useState([]);
   const [paginatedTouristicPlaces, setPaginatedTouristicPlaces] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const init = () => {
-    touristicPlaceService.getAll(token)
+    touristicPlaceService.getAll(localStorage.getItem("token"))
       .then(response => {
         console.log('Printing touristic place data', response.data);
         setTouristicPlaces(response.data);
@@ -30,7 +30,7 @@ const TouristicPlaceList = ({token, setToken}) => {
   const pages = _.range(1, pageCount+1);
   const handleDelete = (id) => {
     console.log('Printing id', id);
-    touristicPlaceService.remove(id, token)
+    touristicPlaceService.remove(id, localStorage.getItem("token"))
       .then(response => {
         console.log('Touristic place deleted successfully', response.data);
         init();
